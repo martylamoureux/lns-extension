@@ -1,0 +1,5 @@
+{
+  "providers": [
+    "MartyLamoureux\\LnsExtension\\ExtensionProvider"
+  ]
+}

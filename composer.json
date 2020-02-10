@@ -1,0 +1,21 @@
+{
+  "name": "martylamoureux/lns-extension",
+  "description": "",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Marty Lamoureux",
+      "email": "marty@lamoureux-mail.fr"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "MartyLamoureux\\LnsExtension\\": "src"
+    }
+  },
+  "require": {
+    "dynamicscreen/extension-kit": "dev-develop"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
