@@ -37,8 +37,65 @@
 
                 <div class="tw-h-40">
                     <div v-if="lastHeat" class="tw-flex tw-flex-col">
-                        <div class="tw-pl-32 tw-ml-8">
-                            Dernière manche <small class="tw-opacity-25">Last Heat</small>
+                        <div class="tw-pl-32 tw-ml-8 tw-mr-4 tw-flex tw-items-center">
+                            <div class="tw-flex-grow">
+                                Dernière manche <small class="tw-opacity-25">Last Heat</small>
+                            </div>
+                            <div class="tw-text-2xl tw-flex tw-items-center">
+                                <div class="tw-flex tw-items-center tw-mr-4" v-if="lastHeat.riders.filter(r => r.pivot.points == 'D').length > 0">
+                                    <div class="tw-h-10 tw-w-10 tw-rounded tw-mr-2 tw-bg-red-600 tw-text-white tw-font-bold tw-flex tw-items-center tw-justify-center tw-leading-none">
+                                        D
+                                    </div>
+                                    <div class="tw-text-red-600">
+                                        Disqualification
+                                    </div>
+                                </div>
+
+                                <div class="tw-flex tw-items-center tw-mr-4" v-if="lastHeat.riders.filter(r => r.pivot.points == 'F').length > 0">
+                                    <div class="tw-h-10 tw-w-10 tw-rounded tw-mr-2 tw-bg-red-600 tw-text-white tw-font-bold tw-flex tw-items-center tw-justify-center tw-leading-none">
+                                        F
+                                    </div>
+                                    <div class="tw-text-red-600">
+                                        Chute
+                                    </div>
+                                </div>
+
+                                <div class="tw-flex tw-items-center tw-mr-4" v-if="lastHeat.riders.filter(r => r.pivot.points == 'R').length > 0">
+                                    <div class="tw-h-10 tw-w-10 tw-rounded tw-mr-2 tw-bg-red-600 tw-text-white tw-font-bold tw-flex tw-items-center tw-justify-center tw-leading-none">
+                                        R
+                                    </div>
+                                    <div class="tw-text-red-600">
+                                        Retrait
+                                    </div>
+                                </div>
+
+                                <div class="tw-flex tw-items-center tw-mr-4" v-if="lastHeat.riders.filter(r => r.pivot.points == 'M').length > 0">
+                                    <div class="tw-h-10 tw-w-10 tw-rounded tw-mr-2 tw-bg-red-600 tw-text-white tw-font-bold tw-flex tw-items-center tw-justify-center tw-leading-none">
+                                        M
+                                    </div>
+                                    <div class="tw-text-red-600">
+                                        2 Minutes
+                                    </div>
+                                </div>
+
+                                <div class="tw-flex tw-items-center tw-mr-4" v-if="lastHeat.riders.filter(r => r.pivot.points == 'T').length > 0">
+                                    <div class="tw-h-10 tw-w-10 tw-rounded tw-mr-2 tw-bg-red-600 tw-text-white tw-font-bold tw-flex tw-items-center tw-justify-center tw-leading-none">
+                                        T
+                                    </div>
+                                    <div class="tw-text-red-600">
+                                        Faux départ
+                                    </div>
+                                </div>
+
+                                <div class="tw-flex tw-items-center tw-mr-4" v-if="lastHeat.riders.filter(r => r.pivot.points == 'N').length > 0">
+                                    <div class="tw-h-10 tw-w-10 tw-rounded tw-mr-2 tw-bg-red-600 tw-text-white tw-font-bold tw-flex tw-items-center tw-justify-center tw-leading-none">
+                                        N
+                                    </div>
+                                    <div class="tw-text-red-600">
+                                        Non Partant
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="tw-bg-white tw-shadow tw-p-4 tw-flex tw-items-center tw-h-24">
                             <div class="tw-h-32 tw-w-24 tw-mr-4 tw-bg-gray-700 tw-text-white tw-font-bold tw-rounded-lg tw-flex tw-items-center tw-justify-center tw-text-5xl tw-leading-none">
@@ -68,28 +125,35 @@
 
                 <div class="tw-h-40">
                     <div v-if="nextHeat" class="tw-flex tw-flex-col">
-                        <div class="tw-pl-32 tw-ml-8">
-                            Manche suivante <small class="tw-opacity-25">Next Heat</small>
+                        <div class="tw-pl-32 tw-ml-8 tw-flex">
+                            <div class="tw-flex-grow">
+                                Manche suivante <small class="tw-opacity-25">Next Heat</small> 
+                            </div>
                         </div>
                         <div class="tw-bg-white tw-shadow tw-p-4 tw-flex tw-items-center tw-h-24">
                             <div class="tw-h-32 tw-w-24 tw-mr-4 tw-bg-gray-700 tw-text-white tw-font-bold tw-rounded-lg tw-flex tw-items-center tw-justify-center tw-text-5xl tw-leading-none">
                                 M{{ nextHeat.number }}
                             </div>
 
-                            <div class="tw-flex tw-justify-stretch tw-rounded-lg tw-shadow tw-mr-2" v-for="r of nextHeat.riders">
-                                <div class="tw-w-4 tw-rounded-l-lg" :class="`tw-bg-${r.pivot.helmet_color}-500`"></div>
-                                <div class="tw-py-2 tw-px-4 tw-bg-gray-100 tw-text-2xl tw-flex tw-items-center"
-                                    :class="{'tw-text-green-600': r.pivot.replacement_rider_id}">
-                                    {{ r.info.number }}. {{ r.name }}
-                                    <i class="fa fa-sync tw-ml-2" v-if="r.pivot.replacement_rider_id"></i>
+                            <div class="tw-flex tw-items-center tw-flex-grow" v-if="nextHeat.riders.length == 4">
+                               <div class="tw-flex tw-justify-stretch tw-rounded-lg tw-shadow tw-mr-2" v-for="r of nextHeat.riders">
+                                    <div class="tw-w-4 tw-rounded-l-lg" :class="`tw-bg-${r.pivot.helmet_color}-500`"></div>
+                                    <div class="tw-py-2 tw-px-4 tw-bg-gray-100 tw-text-2xl tw-flex tw-items-center"
+                                        :class="{'tw-text-green-600': r.pivot.replacement_rider_id}">
+                                        {{ r.info.number }}. {{ r.name }}
+                                        <i class="fa fa-sync tw-ml-2" v-if="r.pivot.replacement_rider_id"></i>
+                                    </div>
+                                    <div class="tw-py-2 tw-px-2 tw-bg-gray-900 tw-text-white tw-text-2xl tw-flex tw-items-center"
+                                        v-if="r.pivot.ct">
+                                        CT
+                                    </div>
+                                    <div class="tw-py-2 tw-px-4 tw-bg-gray-400 tw-text-gray-600 tw-rounded-r-lg tw-text-2xl tw-flex tw-items-center">
+                                        {{ r.pivot.gate }}
+                                    </div>
                                 </div>
-                                <div class="tw-py-2 tw-px-2 tw-bg-gray-900 tw-text-white tw-text-2xl tw-flex tw-items-center"
-                                    v-if="r.pivot.ct">
-                                    CT
-                                </div>
-                                <div class="tw-py-2 tw-px-4 tw-bg-gray-400 tw-text-gray-600 tw-rounded-r-lg tw-text-2xl tw-flex tw-items-center">
-                                    {{ r.pivot.gate }}
-                                </div>
+                            </div>
+                            <div v-else class="tw-text-gray-500">
+                                La composition de cette manche n'est pas encore connue
                             </div>
 
                         </div>
@@ -121,7 +185,7 @@
 
             </div>
             <div v-else-if="next_match" class="tw-flex tw-flex-col">
-                <div class="tw-pt-16 tw-pb-8">
+                <div class="tw-pt-8 tw-pb-8">
                     <LogoLns />
                 </div>
                 <div class="tw-py-4 tw-text-center tw-text-gray-800">
@@ -144,20 +208,41 @@
                         </div>
                     </div>
                 </div>
-                <div v-if="isNextMatchToday" class="tw-mt-32 tw-flex-col tw-items-center">
+                <div v-if="isNextMatchToday" class="tw-mt-4 tw-flex-col tw-items-center">
                     <div class="tw-flex tw-justify-center">
                         
-                        <div class="tw-w-56 tw-text-center tw-flex tw-flex-col tw-items-center">
-                            <div class="tw-font-bold" style="font-size: 8rem;">{{ countdown_h }}</div>
-                            <div class="tw-text-3xl">heures</div>
+                        <div class="tw-w-32 tw-text-center tw-flex tw-flex-col tw-items-center">
+                            <div class="tw-font-bold" style="font-size: 3rem;">{{ countdown_h }}</div>
+                            <div class="tw-text-2xl">heures</div>
                         </div>
-                        <div class="tw-w-56 tw-text-center tw-flex tw-flex-col tw-items-center">
-                            <div class="tw-font-bold" style="font-size: 8rem;">{{ countdown_m }}</div>
-                            <div class="tw-text-3xl">minutes</div>
+                        <div class="tw-w-32 tw-text-center tw-flex tw-flex-col tw-items-center">
+                            <div class="tw-font-bold" style="font-size: 3rem;">{{ countdown_m }}</div>
+                            <div class="tw-text-2xl">minutes</div>
                         </div>
-                        <div class="tw-w-56 tw-text-center tw-flex tw-flex-col tw-items-center">
-                            <div class="tw-font-bold" style="font-size: 8rem;">{{ countdown_s }}</div>
-                            <div class="tw-text-3xl">secondes</div>
+                        <div class="tw-w-32 tw-text-center tw-flex tw-flex-col tw-items-center">
+                            <div class="tw-font-bold" style="font-size: 3rem;">{{ countdown_s }}</div>
+                            <div class="tw-text-2xl">secondes</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tw-mt-8 tw-flex tw-flex-col tw-items-center">
+                    <div class="tw-w-1/2 tw-flex tw-flex-col tw-justify-center">
+                        <div v-for="row of classification" class="tw-text-white tw-p-2 tw-mb-2 tw-rounded-full tw-shadow tw-flex tw-items-center tw-leading-none"
+                        :style="{background: row.team.color}">
+                            <div class="tw-w-16 tw-h-16 tw-text-gray-700 tw-bg-white tw-rounded-full tw-flex tw-items-center tw-justify-center">
+                                {{ row.place }}
+                            </div>
+                            <div class="tw-flex tw-items-center tw-justify-center tw-px-4 tw-w-24">
+                                <img class="tw-h-16" :src="row.team.logo_url" alt="" />
+                            </div>
+                            <div class="tw-uppercase tw-flex-grow">
+                                {{ row.team.name }}
+                            </div>
+                            <div class="tw-h-16 tw-w-40 tw-px-8 tw-text-gray-700 tw-bg-white tw-rounded-full tw-flex tw-items-center tw-justify-center">
+                                <div>
+                                    {{ row.pts }} <span class="tw-text-gray-400 tw-text-2xl">{{ row.pts > 1 ? "pts" : "pt" }}</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -193,6 +278,7 @@ import Riders from "../components/Riders";
               countdown_h: 0,
               countdown_m: 0,
               countdown_s: 0,
+              classification: null,
               
               updateIntervalHandle: null,
               countdownIntervalHandle: null,
@@ -218,6 +304,11 @@ import Riders from "../components/Riders";
                                 return;
                             }
                             this.isNextMatchToday = this.next_match.date.isSame(new Date, "day");
+                            this.isLive = false;
+                            
+                            fetch(this.slide.data.api_url + `divisions/${this.next_match.division.slug}/classification`).then(async resp => {
+                                this.classification = await resp.json();
+                            });
                         });
                     } else {
                         this.isLive = true;
@@ -276,9 +367,10 @@ import Riders from "../components/Riders";
                             this.showClassificationResults = true;
                         }
 
+                        this.nextHeat = null;
                         json.heats.filter(h => h.number == lastHeatId + 1).map(h => this.nextHeat = h);
 
-                        let sortRiders = (a, b) => {
+                        let sortRidersTotal = (a, b) => {
                             if (a.total > b.total) {
                                 return -1;
                             } else if (a.total < b.total) {
@@ -287,9 +379,28 @@ import Riders from "../components/Riders";
                             return 0;
                         };
 
-                        json.home_riders.sort(sortRiders);
-                        json.visitors_riders.sort(sortRiders);
+                        let sortRidersNumber = (a, b) => {
+                            if (a.pivot.number > b.pivot.number) {
+                                return 1;
+                            } else if (a.pivot.number < b.pivot.number) {
+                                return -1;
+                            }
+                            return 0;
+                        };
 
+                        json.home_riders.sort(sortRidersTotal);
+                        json.visitors_riders.sort(sortRidersTotal);
+
+                        for (let r of json.home_riders) {
+                            r.topScorer = r.total >= json.home_riders[3].total && lastHeatId >= 6;
+                        }
+
+                        for (let r of json.visitors_riders) {
+                            r.topScorer = r.total >= json.visitors_riders[3].total && lastHeatId >= 6;
+                        }
+
+                        json.home_riders.sort(sortRidersNumber);
+                        json.visitors_riders.sort(sortRidersNumber);
 
                     }
 
@@ -309,7 +420,12 @@ import Riders from "../components/Riders";
         activated() {
             console.log("LNS activated");
             this.updateData();
-            // this.updateIntervalHandle = setInterval(() =>  this.updateData(), 60 * 1000);
+            this.updateIntervalHandle = setInterval(() =>  this.updateData(), 60 * 1000);
+            
+            this.$events.on('shared-pusher:lns.update', data => {
+                this.updateData();
+            });
+
             this.countdownIntervalHandle = setInterval(() => {
                 if (!this.next_match || !this.next_match.id) {
                     return;
@@ -325,6 +441,7 @@ import Riders from "../components/Riders";
             console.log("LNS deactivated");
             clearInterval(this.updateIntervalHandle);
             clearInterval(this.countdownIntervalHandle);
+            this.$events.off('shared-pusher:lns.update');
         }
     }
 </script>
